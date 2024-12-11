@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Routine</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff5851;
+            color: #fff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff403a;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li span {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+
+        li button {
+            background-color: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        li button:hover {
+            color: red;
+        }
+
+        /* Focus Mode */
+        .focus-mode {
+            display: none;
+        }
+
+        .focus-task {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .focus-button {
+            display: block;
+            margin: 20px auto;
+            background-color: #00b894;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            margin: 20px auto;
+            background-color: #00b894;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .focus-button:hover,
+        .back-button:hover {
+            background-color: #098d71;
+        }
+
+        .stopwatch {
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .stopwatch button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .stopwatch button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="back-button" onclick="goBack()">Back</button>
+    <div class="container">
+        <h1>My Routine</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Add new task...">
+            <button onclick="addTask()">Add</button>
+        </div>
+
+        <!-- Focus Mode -->
+        <div id="focusModeContainer" class="focus-mode">
+            <div id="focusTask" class="focus-task"></div>
+            <div class="stopwatch">
+                <span id="stopwatchDisplay">00:00</span>
+                <div>
+                    <button id="startStopButton" onclick="startStopwatch()">Start</button>
+                    <button id="cancelButton" onclick="cancelStopwatch()">Cancel</button>
+                </div>
+            </div>
+            <button class="focus-button" onclick="exitFocusMode()">Exit</button>
+        </div>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        const taskList = document.getElementById('taskList');
+        const taskInput = document.getElementById('taskInput');
+        const focusModeContainer = document.getElementById('focusModeContainer');
+        const focusTask = document.getElementById('focusTask');
+        const stopwatchDisplay = document.getElementById('stopwatchDisplay');
+
+        let stopwatchInterval;
+        let stopwatchSeconds = 0;
+        let stopwatchRunning = false;
+
+        // Function to navigate back to index.html
+        function goBack() {
+            window.location.href = '/index';
+        }
+
+        // Load tasks from the server
+        async function loadTasks() {
+            const response = await fetch('/routine/tasks');
+            const tasks = await response.json();
+            tasks.forEach(task => {
+                addTaskToDOM(task);
+            });
+        }
+
+        // Add task to the DOM
+        function addTaskToDOM(task) {
+            const li = document.createElement('li');
+            li.dataset.id = task._id;
+            li.innerHTML = `
+                <input type="checkbox" class="task-checkbox" ${task.checked ? 'checked' : ''} onchange="updateTaskStatus('${task._id}', this.checked)"> 
+                <span onclick="enterFocusMode('${task.taskName}')">${task.taskName}</span>
+                <button onclick="removeTask('${task._id}', this)">Delete</button>`;
+            taskList.appendChild(li);
+        }
+
+        // Add a new task
+        async function addTask() {
+            const taskName = taskInput.value.trim();
+            if (!taskName) return;
+
+            const response = await fetch('/routine/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ taskName })
+            });
+            const task = await response.json();
+            addTaskToDOM(task);
+            taskInput.value = '';
+        }
+
+        // Remove a task
+        async function removeTask(taskId, button) {
+            await fetch(`/routine/tasks/${taskId}`, {
+                method: 'DELETE'
+            });
+            const li = button.parentElement;
+            taskList.removeChild(li);
+        }
+
+        // Update task status
+        async function updateTaskStatus(taskId, checked) {
+            await fetch(`/routine/tasks/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ checked })
+            });
+        }
+
+        // Function to enter focus mode
+        function enterFocusMode(taskName) {
+            focusModeContainer.style.display = 'block';
+            focusTask.textContent = `Focused Task: ${taskName}`;
+        }
+
+        // Function to exit focus mode
+        function exitFocusMode() {
+            focusModeContainer.style.display = 'none';
+            resetStopwatch();
+        }
+
+        // Stopwatch functions
+        function startStopwatch() {
+            if (!stopwatchRunning) {
+                stopwatchRunning = true;
+                stopwatchInterval = setInterval(() => {
+                    stopwatchSeconds++;
+                    stopwatchDisplay.textContent = formatTime(stopwatchSeconds);
+                }, 1000);
+                document.getElementById('startStopButton').textContent = 'Pause';
+            } else {
+                clearInterval(stopwatchInterval);
+                stopwatchRunning = false;
+                document.getElementById('startStopButton').textContent = 'Start';
+            }
+        }
+
+        function cancelStopwatch() {
+            resetStopwatch();
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchRunning = false;
+            stopwatchSeconds = 0;
+            stopwatchDisplay.textContent = '00:00';
+            document.getElementById('startStopButton').textContent = 'Start';
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const remainingSeconds = (seconds % 60).toString().padStart(2, '0');
+            return `${minutes}:${remainingSeconds}`;
+        }
+
+        // Load tasks when the page is loaded
+        document.addEventListener('DOMContentLoaded', loadTasks);
+    </script>
+</body>
+
+</html>

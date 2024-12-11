@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Manager</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="description" content="Project Manager Dashboard to manage tasks and routines.">
+    <meta property="og:title" content="Project Manager Dashboard">
+    <meta property="og:description" content="Manage your tasks and daily routines efficiently.">
+    <meta property="og:image" content="thumbnail.png">
+    <style>
+        /* Styles omitted for brevity; keep the existing styles */
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            width: 100vw;
+            background-color: #fff;
+            /* White background */
+        }
+
+        .button:hover {
+            color: #ff7043;
+            /* Light orange color */
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            /* White background */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: relative;
+            width: 10vw;
+            background: #ff5722;
+            /* Orange background */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-links li {
+            margin: 1rem 0;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            /* White navbar */
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            padding: 0.5rem;
+            width: 150%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .profile-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .logout-btn {
+            background: #ff7043;
+            /* Orange logout button */
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .logout-btn:hover {
+            background: #f4511e;
+            /* Darker orange */
+        }
+
+        /* Card and Dashboard */
+        .welcome-section {
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            /* White background */
+            margin: 1rem;
+            border-radius: 10px;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        .card {
+            background: #fff;
+            /* White card background */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(30% - 1rem);
+            max-width: 30%;
+            text-align: center;
+        }
+
+        .card button {
+            margin-top: auto;
+            padding: 0.7rem 1.5rem;
+            background: #ff5722;
+            /* Orange button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background: #f4511e;
+            /* Darker orange on hover */
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .calendar-grid div {
+            padding: 10px;
+            background: #f9f9f9;
+            /* Light grey for calendar days */
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .calendar-grid div:hover {
+            background: #ff5722;
+            /* Orange on hover */
+            color: white;
+        }
+
+        .calendar-grid div.today {
+            background: #ff5722;
+            /* Highlight today with orange */
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Logo</h2>
+        </div>
+        <ul class="sidebar-links">
+            <li><a class="button" href="/task">My Task</a></li>
+            <li><a class="button" href="/routine">Daily Routines</a></li>
+        </ul>
+    </aside>
+
+    <div class="main-content">
+        <header class="navbar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="profile-icons">
+                <img src="/static/images/user.png" alt="Profile" class="profile-pic">
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="welcome-section">
+                <h1>Welcome, <span id="user-name">Loading...</span></h1>
+                <p>Manage your tasks and daily routines efficiently!</p>
+            </section>
+
+            <section class="dashboard">
+                <div class="card">
+                    <h2>My Tasks</h2>
+                    <div id="task-list">
+                        <!-- Task list will be dynamically populated -->
+                    </div>
+                    <a href="/task"><button>Add Task</button></a>
+                </div>
+                <div class="card">
+                    <h2>Daily Routine</h2>
+                    <div id="routine-list">
+                        <!-- Routine list dynamically populated -->
+                    </div>
+                    <a href="/routine"><button>Add Routine</button></a>
+                </div>
+                <div class="card">
+                    <div class="calendar-header">
+                        <button onclick="prevMonth()">&#8249;</button>
+                        <h2 id="calendar-month">Month</h2>
+                        <button onclick="nextMonth()">&#8250;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Function to handle logout
+        function handleLogout() {
+            fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error during logout:", error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fetch and display username
+            fetch("/get_username")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("User not logged in");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("user-name").textContent = data.username;
+
+                    // Fetch tasks for My Tasks card
+                    return Promise.all([fetch("/tasks"), fetch("/routine/tasks")]);
+                })
+                .then(async ([tasksResponse, routineResponse]) => {
+                    const tasks = await tasksResponse.json();
+                    const routines = await routineResponse.json();
+
+                    // Populate My Tasks card
+                    const taskList = document.getElementById("task-list");
+                    taskList.innerHTML = tasks.map(task => `
+                <p>
+                    ${task.taskName} - ${new Date(task.deadline).toLocaleDateString()} - 
+                    <strong>${task.priority}</strong>
+                </p>
+            `).join("");
+
+                    // Populate Daily Routine card
+                    const routineList = document.getElementById("routine-list");
+                    routineList.innerHTML = routines.map(routine => `
+                <p>
+                    ${routine.taskName} - <strong>${routine.checked ? "✔️ Completed" : "❌ Pending"}</strong>
+                </p>
+            `).join("");
+                })
+                .catch(error => {
+                    console.error("Error fetching tasks or routines:", error);
+                });
+
+            // Calendar setup
+            const calendarGrid = document.getElementById("calendar-grid");
+            const calendarMonth = document.getElementById("calendar-month");
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+
+            function generateCalendar(month, year) {
+                calendarGrid.innerHTML = "";
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const firstDay = new Date(year, month, 1).getDay();
+                const monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                calendarMonth.textContent = `${monthNames[month]} ${year}`;
+
+                const today = new Date();
+                const todayDate = today.getDate();
+                const todayMonth = today.getMonth();
+                const todayYear = today.getFullYear();
+
+                // Add empty cells before the first day of the month
+                for (let i = 0; i < firstDay; i++) {
+                    calendarGrid.innerHTML += `<div></div>`;
+                }
+
+                // Add days to the calendar grid
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const isToday = (i === todayDate && month === todayMonth && year === todayYear) ? 'today' : '';
+                    calendarGrid.innerHTML += `<div class="${isToday}">${i}</div>`;
+                }
+            }
+
+            generateCalendar(currentMonth, currentYear);
+
+            document.querySelector("[onclick='prevMonth()']").onclick = () => {
+                currentMonth = (currentMonth - 1 + 12) % 12;
+                if (currentMonth === 11) currentYear--;
+                generateCalendar(currentMonth, currentYear);
+            };
+
+            document.querySelector("[onclick='nextMonth()']").onclick = () => {
+                currentMonth = (currentMonth + 1) % 12;
+                if (currentMonth === 0) currentYear++;
+                generateCalendar(currentMonth, currentYear);
+            };
+        });
+
+        // Logout functionality
+        function handleLogout() {
+            fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error during logout:", error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>

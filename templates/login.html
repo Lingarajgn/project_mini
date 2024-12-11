@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Project Manager</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+    }
+
+    a {
+      text-decoration: none;
+      color: #6200ea;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .login-container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f4f4f9;
+    }
+
+    .login-card {
+      background: #fff;
+      width: 400px;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .login-card h1 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .login-btn {
+      background: #6200ea;
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #3700b3;
+    }
+
+    .form-links {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    #error-message {
+      color: red;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h1>Welcome Back!</h1>
+      <p>Sign in to manage your tasks, groups, and routines.</p>
+      <form id="login-form">
+        <div id="error-message"></div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" aria-label="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" aria-label="Password" required autocomplete="off">
+        </div>
+        <button type="submit" class="login-btn">Sign In</button>
+        <div class="form-links">
+          <a href="/forgot">Forgot password?</a>
+          <a href="/register">Create an Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", async (event) => {
+      event.preventDefault();  // Prevent the default form submission
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const errorContainer = document.getElementById("error-message");
+      errorContainer.textContent = "";  // Clear previous errors
+
+      if (!email || !password) {
+        errorContainer.textContent = "Please fill out all fields.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),  // Send data as JSON
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          window.location.href = result.redirect_url;  // Redirect to the next page
+        } else {
+          const result = await response.json();
+          errorContainer.textContent = result.error || "Login failed.";
+        }
+      } catch (error) {
+        errorContainer.textContent = "Error connecting to the server.";
+      }
+    });
+  </script>
+</body>
+
+</html>
