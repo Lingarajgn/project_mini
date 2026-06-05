@@ -138,6 +138,17 @@ h3 {
     border: 1px solid var(--line);
 }
 
+.btn-danger {
+    background: rgba(255, 122, 144, 0.12);
+    color: var(--danger);
+    border: 1px solid rgba(255, 122, 144, 0.45);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+}
+
 .hero-grid,
 .card-grid {
     display: grid;
@@ -226,6 +237,14 @@ select {
     font-size: .95rem;
 }
 
+.message.error {
+    color: var(--danger);
+}
+
+.loading {
+    margin: 0;
+}
+
 .small-link {
     color: var(--muted);
     font-size: .95rem;
@@ -261,6 +280,14 @@ select {
     color: var(--primary-2);
 }
 
+.item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 @media (max-width: 1080px) {
 
     .card-grid.four-up,
@@ -294,6 +321,15 @@ select {
     .topbar {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .task-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .item-actions {
+        justify-content: flex-start;
     }
 
     .card-grid.four-up,
