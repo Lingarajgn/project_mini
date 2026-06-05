@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routine Hub | Login</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">Routine Hub</div>
+                <p class="muted">Sign in to continue.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Landing</a>
+                <a href="register.html">Register</a>
+                <a href="login.html" class="active">Login</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="routines.html">Routines</a>
+            </nav>
+        </aside>
+
+        <main class="content-area centered">
+            <section class="card auth-card">
+                <p class="eyebrow">Welcome back</p>
+                <h1>Login</h1>
+                <p class="muted">Access your dashboard and tasks securely.</p>
+                <form id="loginForm" class="auth-form">
+                    <label>Email<input type="email" id="loginEmail" required /></label>
+                    <label>Password<input type="password" id="loginPassword" required /></label>
+                    <button class="btn btn-primary" type="submit">Sign In</button>
+                </form>
+                <p id="loginMessage" class="message"></p>
+                <p class="small-link">Need an account? <a href="register.html">Register here</a></p>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

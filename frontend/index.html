@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routine Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">Routine Hub</div>
+                <p class="muted">Plan your day, manage tasks, and build routines.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="active">Landing</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="routines.html">Routines</a>
+            </nav>
+            <div class="sidebar-card">
+                <h3>Why it works</h3>
+                <p>Fast, secure, and responsive for desktop and mobile.</p>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Welcome</p>
+                    <h1>Build a productive routine with confidence.</h1>
+                </div>
+                <a class="btn btn-primary" href="register.html">Start Free</a>
+            </header>
+
+            <section class="hero-grid">
+                <article class="card hero-card">
+                    <p class="eyebrow">All-in-one workspace</p>
+                    <h2>Organize tasks, routines, and progress from one simple dashboard.</h2>
+                    <p class="muted">Routine Hub combines a clean UI with authenticated APIs to keep your workflow
+                        focused.</p>
+                    <div class="chip-row">
+                        <span class="chip">JWT Auth</span>
+                        <span class="chip">Responsive</span>
+                        <span class="chip">Fast API</span>
+                    </div>
+                </article>
+                <article class="card stat-card">
+                    <h3>Quick Start</h3>
+                    <ul class="feature-list">
+                        <li>Create your account</li>
+                        <li>Sign in securely</li>
+                        <li>Track tasks and routines</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section class="card-grid three-up">
+                <article class="card">
+                    <h3>Task Control</h3>
+                    <p>Manage priorities, deadlines, and completion status with clarity.</p>
+                </article>
+                <article class="card">
+                    <h3>Routine Planning</h3>
+                    <p>Schedule your recurring habits and keep your day consistent.</p>
+                </article>
+                <article class="card">
+                    <h3>Dashboard Insights</h3>
+                    <p>See task completion, routine totals, and progress at a glance.</p>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

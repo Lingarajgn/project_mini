@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routine Hub | Tasks</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">Routine Hub</div>
+                <p class="muted">Manage your tasks.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Landing</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="tasks.html" class="active">Tasks</a>
+                <a href="routines.html">Routines</a>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Tasks</p>
+                    <h1>Your Task List</h1>
+                </div>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </header>
+
+            <section class="card">
+                <h3 id="taskFormTitle">Add Task</h3>
+                <form id="taskForm" class="task-form">
+                    <input type="hidden" id="taskId" />
+                    <input type="text" id="taskTitle" placeholder="Task title" required />
+                    <input type="text" id="taskDescription" placeholder="Description" />
+                    <select id="taskPriority">
+                        <option value="high">High</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                    <select id="taskStatus">
+                        <option value="pending" selected>Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="date" id="taskDueDate" />
+                    <button id="taskSubmitBtn" class="btn btn-primary" type="submit">Add Task</button>
+                </form>
+                <p id="taskMessage" class="message"></p>
+            </section>
+
+            <section class="card">
+                <h3>Task List</h3>
+                <div id="taskList" class="list-stack"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

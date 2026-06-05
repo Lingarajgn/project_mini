@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routine Hub | Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">Routine Hub</div>
+                <p class="muted">Your productivity dashboard.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Landing</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="routines.html">Routines</a>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Overview</p>
+                    <h1>Dashboard</h1>
+                </div>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </header>
+
+            <section class="card-grid four-up" id="dashboardStats">
+                <article class="card stat-box">
+                    <h3>Total Tasks</h3><strong id="totalTasks">0</strong>
+                </article>
+                <article class="card stat-box">
+                    <h3>Completed</h3><strong id="completedTasks">0</strong>
+                </article>
+                <article class="card stat-box">
+                    <h3>Pending</h3><strong id="pendingTasks">0</strong>
+                </article>
+                <article class="card stat-box">
+                    <h3>Completion Rate</h3><strong id="completionRate">0%</strong>
+                </article>
+            </section>
+
+            <section class="card-grid two-up">
+                <article class="card">
+                    <h3>Current Focus</h3>
+                    <p id="focusMessage">Loading your summary…</p>
+                </article>
+                <article class="card">
+                    <h3>Routine Count</h3><strong id="totalRoutines">0</strong>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

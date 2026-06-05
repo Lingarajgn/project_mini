@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routine Hub | Routines</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">Routine Hub</div>
+                <p class="muted">Plan your routines.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Landing</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="routines.html" class="active">Routines</a>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Routines</p>
+                    <h1>Your Weekly Routine</h1>
+                </div>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </header>
+
+            <section class="card">
+                <h3 id="routineFormTitle">Add Routine</h3>
+                <form id="routineForm" class="task-form">
+                    <input type="hidden" id="routineId" />
+                    <input type="text" id="routineName" placeholder="Routine name" required />
+                    <input type="text" id="routineDescription" placeholder="Description" />
+                    <input type="time" id="routineStartTime" required />
+                    <input type="time" id="routineEndTime" required />
+                    <button id="routineSubmitBtn" class="btn btn-primary" type="submit">Add Routine</button>
+                </form>
+                <p id="routineMessage" class="message"></p>
+            </section>
+
+            <section class="card">
+                <h3>Your Routines</h3>
+                <div id="routineList" class="list-stack"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
